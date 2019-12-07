@@ -1,7 +1,14 @@
 image: "rust:latest"
 
 stages:
+  - build
   - test
+
+build:day-1:
+  stage: build
+  script:
+    - cd day1
+    - cargo build --release
 
 run:day-1:
   stage: test
