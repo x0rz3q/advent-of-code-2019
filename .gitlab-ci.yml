@@ -57,7 +57,7 @@ run:day-5:
   script:
     - cd day5
     - echo '1' | cargo run
-    - echo '5' | cargu run
+    - echo '5' | cargo run
 
 run:day-7:
   stage: test
