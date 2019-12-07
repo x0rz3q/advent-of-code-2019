@@ -22,6 +22,12 @@ build:day-4:
     - cd day4
     - cargo build --release
 
+build:day-5:
+  stage: build
+  script:
+    - cd day5
+    - cargo build --release
+
 run:day-1:
   stage: test
   script:
@@ -39,3 +45,10 @@ run:day-4:
   script:
     - cd day4
     - cargo run
+
+run:day-5:
+  stage: test
+  script:
+    - cd day5
+    - echo '1' | cargo run
+    - echo '5' | cargu run
