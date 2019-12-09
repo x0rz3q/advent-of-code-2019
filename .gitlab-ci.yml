@@ -46,6 +46,12 @@ build:day-8:
     - cd day8
     - cargo build --release
 
+build:day-9:
+  stage: build
+  script:
+    - cd day9
+    - cargo build --release
+
 run:day-1:
   stage: test
   script:
@@ -87,4 +93,10 @@ run:day-8:
   stage: test
   script:
     - cd day8
+    - cargo run
+
+run:day-9:
+  stage: test
+  script:
+    - cd day9
     - cargo run
