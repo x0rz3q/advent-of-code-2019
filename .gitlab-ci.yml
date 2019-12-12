@@ -64,63 +64,75 @@ build:day-11:
     - cd day11
     - cargo build --release
 
+build:day-12:
+  stage: build
+  script:
+    - cd day12
+    - cargo build --release
+
 run:day-1:
   stage: test
   script:
     - cd day1
-    - cargo run
+    - cargo run --release
 
 run:day-2:
   stage: test
   script:
     - cd day2
-    - cargo run
+    - cargo run --release
 
 run:day-3:
   stage: test
   script:
     - cd day3
-    - cargo run
+    - cargo run --release
 
 run:day-4:
   stage: test
   script:
     - cd day4
-    - cargo run
+    - cargo run --release
 
 run:day-5:
   stage: test
   script:
     - cd day5
-    - echo '1' | cargo run
-    - echo '5' | cargo run
+    - echo '1' | cargo run --release
+    - echo '5' | cargo run --release
 
 run:day-7:
   stage: test
   script:
     - cd day7
-    - cargo run
+    - cargo run --release
 
 run:day-8:
   stage: test
   script:
     - cd day8
-    - cargo run
+    - cargo run --release
 
 run:day-9:
   stage: test
   script:
     - cd day9
-    - cargo run
+    - cargo run --release
 
 run:day-10:
   stage: test
   script:
     - cd day9
-    - cargo run
+    - cargo run --release
 
 run:day-11:
   stage: test
   script:
     - cd day11
-    - cargo run
+    - cargo run --release
+
+run:day-12:
+  stage: test
+  script:
+    - cd day12
+    - cargo run --release
