@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 extern crate regex;
 
+use num::Integer;
 use regex::Regex;
 use std::cmp;
 use std::thread;
@@ -12,20 +13,72 @@ struct System {
 	velocity: i64,
 }
 
-fn run_simulator(mut map: Vec<System>, steps: usize) -> Vec<System> {
-	let length: i64 = (map.len() - 1) as i64;
+fn print_system(system: System) {
+	println!(
+		"\t{}: pos: {}, vel: {}",
+		system.index, system.coordinate, system.velocity
+	);
+}
 
-	for _ in 0..steps {
-		map.sort_by(|a, b| a.coordinate.cmp(&b.coordinate));
-
+fn run_simulator(mut map: Vec<System>, steps: usize, index: usize) -> (Vec<System>, usize) {
+	for k in 0..steps {
+		let filterable = map.clone();
 		for i in 0..map.len() {
-			let index = i as i64;
-			map[i].velocity += length - 2 * index;
+			let less: i64 = filterable
+				.iter()
+				.filter(|&x| x.coordinate < filterable[i].coordinate)
+				.count() as i64;
+			let more: i64 = filterable
+				.iter()
+				.filter(|&x| x.coordinate > filterable[i].coordinate)
+				.count() as i64;
+
+			map[i].velocity += more - less;
 			map[i].coordinate += map[i].velocity;
 		}
 	}
+	(map, index)
+}
 
-	map
+fn run_until_same(mut map: Vec<System>, index: usize) -> (u64, usize) {
+	let mut step: u64 = 0;
+	let mut coordinates = Vec::new();
+
+	for i in 0..map.len() {
+		coordinates.push(map[i].coordinate);
+	}
+
+	loop {
+		step += 1;
+
+		let filterable = map.clone();
+		for i in 0..map.len() {
+			let less: i64 = filterable
+				.iter()
+				.filter(|&x| x.coordinate < filterable[i].coordinate)
+				.count() as i64;
+			let more: i64 = filterable
+				.iter()
+				.filter(|&x| x.coordinate > filterable[i].coordinate)
+				.count() as i64;
+
+			map[i].velocity += more - less;
+			map[i].coordinate += map[i].velocity;
+		}
+
+		for k in 0..map.len() {
+			if map[k].coordinate != coordinates[k] {
+				break;
+			}
+
+			let same = map.iter().filter(|&x| x.velocity == 0).count();
+			if same == map.len() {
+				return (step, index);
+			}
+		}
+	}
+
+	(step, index)
 }
 
 fn get_numbers(input: String) -> (i64, i64, i64) {
@@ -40,6 +93,75 @@ fn get_numbers(input: String) -> (i64, i64, i64) {
 	}
 
 	return (0, 0, 0);
+}
+
+fn part_one(solar_x: Vec<System>, solar_y: Vec<System>, solar_z: Vec<System>) -> i64 {
+	let mut threads = Vec::new();
+	let length = solar_x.len();
+	let steps = 1000;
+
+	threads.push(thread::spawn(move || -> (Vec<System>, usize) {
+		run_simulator(solar_x, steps, 0)
+	}));
+
+	threads.push(thread::spawn(move || -> (Vec<System>, usize) {
+		run_simulator(solar_y, steps, 1)
+	}));
+
+	threads.push(thread::spawn(move || -> (Vec<System>, usize) {
+		run_simulator(solar_z, steps, 2)
+	}));
+
+	let mut potential = Vec::new();
+	let mut kinetic = Vec::new();
+
+	for i in 0..length {
+		potential.push(0);
+		kinetic.push(0);
+	}
+
+	for i in threads {
+		let solar = i.join().unwrap();
+		for x in solar.0 {
+			potential[x.index] += x.coordinate.abs();
+			kinetic[x.index] += x.velocity.abs();
+		}
+	}
+
+	let mut result = 0;
+
+	for i in 0..length {
+		result += potential[i] * kinetic[i];
+	}
+
+	result
+}
+
+fn part_two(solar_x: Vec<System>, solar_y: Vec<System>, solar_z: Vec<System>) -> u64 {
+	let mut threads = Vec::new();
+	let length = solar_x.len();
+	let steps = 1000;
+
+	threads.push(thread::spawn(move || -> (u64, usize) {
+		run_until_same(solar_x, 0)
+	}));
+
+	threads.push(thread::spawn(move || -> (u64, usize) {
+		run_until_same(solar_y, 1)
+	}));
+
+	threads.push(thread::spawn(move || -> (u64, usize) {
+		run_until_same(solar_z, 2)
+	}));
+
+	let mut count = vec![0, 0, 0];
+
+	for i in threads {
+		let result = i.join().unwrap();
+		count[result.1] = result.0;
+	}
+
+	count[0].lcm(&count[1]).lcm(&count[2])
 }
 
 fn main() {
@@ -74,22 +196,12 @@ fn main() {
 		index += 1;
 	}
 
-	let mut threads = Vec::new();
-	let steps = 4;
-	threads.push(thread::spawn(move || -> Vec<System> {
-		run_simulator(solar_x, steps)
-	}));
-
-//	threads.push(thread::spawn(move || -> Vec<System> {
-//		run_simulator(solar_y, steps)
-//	}));
-//
-//	threads.push(thread::spawn(move || -> Vec<System> {
-//		run_simulator(solar_z, steps)
-//	}));
-
-	for i in threads {
-		let solar_x = i.join().unwrap();
-		println!("{}: {}", solar_x[0].index, solar_x[0].velocity);
-	}
+	println!(
+		"Silver: {}",
+		part_one(solar_x.clone(), solar_y.clone(), solar_z.clone())
+	);
+	println!(
+		"Gold: {}",
+		part_two(solar_x.clone(), solar_y.clone(), solar_z.clone())
+	);
 }
