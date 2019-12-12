@@ -1,9 +1,7 @@
-use std::collections::HashMap;
 extern crate regex;
 
 use num::Integer;
 use regex::Regex;
-use std::cmp;
 use std::thread;
 
 #[derive(Copy, Clone)]
@@ -13,15 +11,8 @@ struct System {
 	velocity: i64,
 }
 
-fn print_system(system: System) {
-	println!(
-		"\t{}: pos: {}, vel: {}",
-		system.index, system.coordinate, system.velocity
-	);
-}
-
 fn run_simulator(mut map: Vec<System>, steps: usize, index: usize) -> (Vec<System>, usize) {
-	for k in 0..steps {
+	for _ in 0..steps {
 		let filterable = map.clone();
 		for i in 0..map.len() {
 			let less: i64 = filterable
@@ -77,8 +68,6 @@ fn run_until_same(mut map: Vec<System>, index: usize) -> (u64, usize) {
 			}
 		}
 	}
-
-	(step, index)
 }
 
 fn get_numbers(input: String) -> (i64, i64, i64) {
@@ -115,7 +104,7 @@ fn part_one(solar_x: Vec<System>, solar_y: Vec<System>, solar_z: Vec<System>) ->
 	let mut potential = Vec::new();
 	let mut kinetic = Vec::new();
 
-	for i in 0..length {
+	for _ in 0..length {
 		potential.push(0);
 		kinetic.push(0);
 	}
@@ -139,9 +128,6 @@ fn part_one(solar_x: Vec<System>, solar_y: Vec<System>, solar_z: Vec<System>) ->
 
 fn part_two(solar_x: Vec<System>, solar_y: Vec<System>, solar_z: Vec<System>) -> u64 {
 	let mut threads = Vec::new();
-	let length = solar_x.len();
-	let steps = 1000;
-
 	threads.push(thread::spawn(move || -> (u64, usize) {
 		run_until_same(solar_x, 0)
 	}));
