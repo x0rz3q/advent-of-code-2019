@@ -1,5 +1,3 @@
-extern crate regex;
-use regex::Regex;
 use std::collections::HashMap;
 
 struct Ingredients {
@@ -42,17 +40,15 @@ fn parse_line(input: String) -> Recipe {
 	recipe
 }
 
-fn parse_input(lines: Vec<String>) -> (HashMap<String, u64>, HashMap<String, Recipe>) {
-	let mut wanted: HashMap<String, u64> = HashMap::new();
+fn parse_input(lines: Vec<String>) -> HashMap<String, Recipe> {
 	let mut cookbook: HashMap<String, Recipe> = HashMap::new();
 
 	for line in lines {
 		let recipe = parse_line(line);
-		wanted.entry(recipe.name.to_string()).or_insert(0);
 		cookbook.insert(recipe.name.to_string(), recipe);
 	}
 
-	(wanted, cookbook)
+	cookbook
 }
 
 fn calculate(cookbook: &HashMap<String, Recipe>, demand: u64) -> u64 {
@@ -69,26 +65,27 @@ fn calculate(cookbook: &HashMap<String, Recipe>, demand: u64) -> u64 {
 		let item = needed.pop().unwrap();
 		let entry = cookbook.get(&item.name).unwrap();
 
-		if entry.output < item.resources {
-			needed.push(Ingredients{name: item.name.to_string(), resources: item.resources - entry.output});
-		} else {
-			let resource = resources.entry(item.name.to_string()).or_insert(0);
-			*resource += entry.output - item.resources;
+		let mut produce = 1;
+		while entry.output * produce < item.resources {
+			produce += 1;
 		}
+
+		let resource = resources.entry(item.name.to_string()).or_insert(0);
+		*resource += entry.output * produce - item.resources;
 
 		for dep in &entry.input {
 			if dep.name == "ORE" {
-				ore += dep.resources;
+				ore += dep.resources * produce;
 				continue;
 			}
 
 			let resource = resources.entry(dep.name.to_string()).or_insert(0);
 
-			if *resource < dep.resources {
-				needed.push(Ingredients{name: dep.name.to_string(), resources: dep.resources - *resource});
+			if *resource < dep.resources * produce {
+				needed.push(Ingredients{name: dep.name.to_string(), resources: dep.resources * produce - *resource});
 				*resource = 0; 
 			} else {
-				*resource = *resource - dep.resources;
+				*resource = *resource - dep.resources * produce;
 			}
 		}
 	}
@@ -103,7 +100,26 @@ fn main() {
 		.map(|k| k.to_string())
 		.collect();
 
-	let (mut wanted, cookbook) = parse_input(input);
-	let mut ores = calculate(&cookbook, 1);
+	let cookbook = parse_input(input);
+	let ores = calculate(&cookbook, 1);
 	println!("Silver: {}", ores);
+
+	let max_ore: u64 = 1000000000000;
+	let mut size = 5000000;
+	let mut base = 0;
+	let mut max = (0, 0);
+	while size > 0 {
+		size /= 2;
+		let mid = base + size;
+		let ore = calculate(&cookbook, mid);
+		if ore < max_ore {
+			base = mid;
+
+			if max.1 < max_ore {
+				max = (mid, ore);
+			}
+		}
+	}
+
+	println!("Gold: {}", max.0);
 }
