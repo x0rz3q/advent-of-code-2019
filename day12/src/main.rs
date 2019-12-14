@@ -57,15 +57,16 @@ fn run_until_same(mut map: Vec<System>, index: usize) -> (u64, usize) {
 			map[i].coordinate += map[i].velocity;
 		}
 
-		for k in 0..map.len() {
-			if map[k].coordinate != coordinates[k] {
-				break;
+		/** use halfway point to find zeroes. */
+		let mut zeroes = 0;
+		for i in 0..map.len() {
+			if map[i].velocity == 0 {
+				zeroes += 1;
 			}
+		}
 
-			let same = map.iter().filter(|&x| x.velocity == 0).count();
-			if same == map.len() {
-				return (step, index);
-			}
+		if zeroes == map.len() {
+			return (step * 2, index);
 		}
 	}
 }
