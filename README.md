@@ -1,9 +1,15 @@
 # Advent of Code 2019
 
-These are my solutions of Advent of Code. I started the challenges in Python,
-but quickly realized that I should improve in Rust instead. Hence, I switched
-over to Rust. This means that I have (maybe had at this point) a backlog
-of things I needed to rewrite. The basic structure of the IntCode machine came
-from Redditors that did this in C++ and Rust, I build forward on that. So,
-kudos to them for giving me inspiration. All code is licensed under the 
-Attribution-NonCommercial GPL v3.
+These are the solutions I created during Advent of Code. When I was stuck I asked for tips
+online. Therefore, I want to thank the community for their help and input.
+
+I started this challenge in Python, but I quickly switched over to rust. This is mainly
+because I wanted to learn Rust, and Python was kinda slow.
+
+Things I learned from Advent of Code
+
+- Make your intcode machine a seperate module, it might come back a lot of times.
+- A basic library would be nice to create for next year, grid printing, coordinate structs and basic
+algorithms.
+
+All code from this repo is licensed uner GPL v3.
