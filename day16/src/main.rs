@@ -4,7 +4,7 @@ fn get_pattern(length: usize, repeat: usize) -> Vec<i64> {
 	let mut sequence: Vec<i64> = Vec::new();
 	let pattern = vec![0, 1, 0, -1];
 
-	'outer: while sequence.len() <= length + 1{
+	'outer: while sequence.len() <= length + 1 {
 		for i in 0..pattern.len() {
 			for j in 0..repeat {
 				sequence.push(pattern[i]);
@@ -70,7 +70,7 @@ fn silver(input: Vec<i64>) -> i64 {
  *        | undefined				if i < length(k)
  *
  * Keep in mind, this only applies for the lower half of the array.
- * It seems that our 8 digit 5977377 > ceil(650000 / 2), 
+ * It seems that our 8 digit 5977377 > ceil(650000 / 2),
  * which means we can use this property.
  */
 fn gold(input: Vec<i64>) -> i64 {
@@ -86,8 +86,8 @@ fn gold(input: Vec<i64>) -> i64 {
 	let offset = offset as usize;
 
 	for _ in 0..100 {
-		for i in (offset..input.len()-1).rev() {
-			input[i] = (input[i] + input[i+1]) % 10; 
+		for i in (offset..input.len() - 1).rev() {
+			input[i] = (input[i] + input[i + 1]) % 10;
 		}
 	}
 
@@ -96,7 +96,7 @@ fn gold(input: Vec<i64>) -> i64 {
 		output *= 10;
 		output += input[i + offset];
 	}
-	
+
 	output
 }
 
@@ -104,7 +104,7 @@ fn main() {
 	let mut input: Vec<i64> = include_str!("input")
 		.trim()
 		.chars()
-		.map(|num| num.to_digit(10).unwrap() as i64) 
+		.map(|num| num.to_digit(10).unwrap() as i64)
 		.collect();
 
 	let mut repeated: Vec<i64> = Vec::new();
