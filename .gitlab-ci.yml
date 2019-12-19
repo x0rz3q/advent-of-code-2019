@@ -4,52 +4,52 @@ stages:
   - build
   - test
 
-build:day-1:
+build:day-01:
   stage: build
   script:
-    - cd day1
+    - cd day01
     - cargo build --release
 
-build:day-2:
+build:day-02:
   stage: build
   script:
-    - cd day2
+    - cd day02
     - cargo build --release
 
-build:day-3:
+build:day-03:
   stage: build
   script:
-    - cd day3
+    - cd day03
     - cargo build --release
 
-build:day-4:
+build:day-04:
   stage: build
   script:
-    - cd day4
+    - cd day04
     - cargo build --release
 
-build:day-5:
+build:day-05:
   stage: build
   script:
-    - cd day5
+    - cd day05
     - cargo build --release
 
-build:day-7:
+build:day-07:
   stage: build
   script:
-    - cd day7
+    - cd day07
     - cargo build --release
 
-build:day-8:
+build:day-08:
   stage: build
   script:
-    - cd day8
+    - cd day08
     - cargo build --release
 
-build:day-9:
+build:day-09:
   stage: build
   script:
-    - cd day9
+    - cd day09
     - cargo build --release
 
 build:day-10:
@@ -112,59 +112,59 @@ build:day-19:
     - cd day19
     - cargo build --release
 
-run:day-1:
+run:day-01:
   stage: test
   script:
-    - cd day1
+    - cd day01
     - cargo run --release
 
-run:day-2:
+run:day-02:
   stage: test
   script:
-    - cd day2
+    - cd day02
     - cargo run --release
 
-run:day-3:
+run:day-03:
   stage: test
   script:
-    - cd day3
+    - cd day03
     - cargo run --release
 
-run:day-4:
+run:day-04:
   stage: test
   script:
-    - cd day4
+    - cd day04
     - cargo run --release
 
-run:day-5:
+run:day-05:
   stage: test
   script:
-    - cd day5
+    - cd day05
     - echo '1' | cargo run --release
     - echo '5' | cargo run --release
 
-run:day-7:
+run:day-07:
   stage: test
   script:
-    - cd day7
+    - cd day07
     - cargo run --release
 
-run:day-8:
+run:day-08:
   stage: test
   script:
-    - cd day8
+    - cd day08
     - cargo run --release
 
-run:day-9:
+run:day-09:
   stage: test
   script:
-    - cd day9
+    - cd day09
     - cargo run --release
 
 run:day-10:
   stage: test
   script:
-    - cd day9
+    - cd day09
     - cargo run --release
 
 run:day-11:
