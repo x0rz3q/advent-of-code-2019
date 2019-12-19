@@ -222,6 +222,9 @@ fn in_beam(program: Vec<i64>, x: i64, y: i64) -> bool {
 	output == 1
 }
 
+/**
+ * Simple loop and count to get required beam.
+ */
 fn silver(program: Vec<i64>) -> i64 {
 	let mut beam = 0;
 
@@ -236,14 +239,27 @@ fn silver(program: Vec<i64>) -> i64 {
 	beam
 }
 
+/**
+ * Check if the coordinate point has the required width.
+ * Assumption: x,y is inside the beam.
+ */
 fn has_width(program: Vec<i64>, x: i64, y: i64) -> bool {
 	in_beam(program.clone(), x + 99, y)
 }
 
+/**
+ * Check if a given point forms a square.
+ * Assumption: x + 99, y has already been checked.
+ */
 fn has_square(program: Vec<i64>, x: i64, y: i64) -> bool {
 	return in_beam(program.clone(), x, y + 99) && in_beam(program.clone(), x + 99, y + 99);
 }
 
+/**
+ * Simple bruteforce solution, runs fast enough to solve this problem.
+ * We can also solve this with algebra, and we could probably also optimize the bruteforce.
+ * But it runs pretty fast now.
+ */
 fn gold(program: Vec<i64>) -> i64 {
 	let mut y = 50;
 	let mut x = 0;
