@@ -136,6 +136,12 @@ build:day-23:
     - cd day23
     - cargo build --release
 
+build:day-24:
+  stage: build
+  script:
+    - cd day24
+    - cargo build --release
+
 run:day-01:
   stage: test
   script:
@@ -267,4 +273,10 @@ run:day-23:
   stage: test
   script:
     - cd day23
+    - cargo run --release
+
+run:day-24:
+  stage: test
+  script:
+    - cd day24
     - cargo run --release
