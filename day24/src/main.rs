@@ -160,7 +160,7 @@ fn silver(bugs: Vec<Bug>) -> u64 {
 	sum
 }
 
-fn gold(bugs: Vec<Bug>) {
+fn gold(bugs: Vec<Bug>) -> usize {
 	let mut bugs = bugs;
 	for _ in 0..200 {
 		let min = bugs.iter().min_by_key(|x| x.z).unwrap().z;
@@ -193,7 +193,7 @@ fn gold(bugs: Vec<Bug>) {
 		bugs = refresh.clone();
 	}
 
-	println!("{}", bugs.len());
+	bugs.len()
 }
 
 fn main() {
@@ -219,5 +219,5 @@ fn main() {
 	}
 
 	println!("Silver: {}", silver(bugs.clone()));
-	gold(bugs);
+	println!("Gold: {}", gold(bugs));
 }
