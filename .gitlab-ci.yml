@@ -34,6 +34,12 @@ build:day-05:
     - cd day05
     - cargo build --release
 
+build:day-06:
+  stage: build
+  script:
+    - cd day06
+    - cargo build --release
+
 build:day-07:
   stage: build
   script:
@@ -178,6 +184,13 @@ run:day-05:
     - cd day05
     - echo '1' | cargo run --release
     - echo '5' | cargo run --release
+
+
+run:day-06:
+  stage: test
+  script:
+    - cd day06
+    - cargo run --release
 
 run:day-07:
   stage: test
