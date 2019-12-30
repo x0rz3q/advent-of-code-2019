@@ -12,4 +12,4 @@ Things I learned from Advent of Code
 - A basic library would be nice to create for next year, grid printing, coordinate structs and basic
 algorithms.
 
-All code from this repo is licensed uner GPL v3.
+All code from this repo is licensed under GPL v3.
