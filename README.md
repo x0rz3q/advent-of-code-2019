@@ -8,7 +8,7 @@ because I wanted to learn Rust, and Python was kinda slow.
 
 Things I learned from Advent of Code
 
-- Make your intcode machine a seperate module, it might come back a lot of times.
+- Make your intcode machine a separate module, it might come back a lot of times.
 - A basic library would be nice to create for next year, grid printing, coordinate structs and basic
 algorithms.
 
